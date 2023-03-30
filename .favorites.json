@@ -1,0 +1,29 @@
+[
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\app",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\app",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "7CpUPQM3sIiZoScL"
+    },
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\routes",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\routes",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "qOUobnEczJMD5lBI"
+    },
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\resources",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\resources",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "cTisQC0gSdvrl8zj"
+    }
+]
