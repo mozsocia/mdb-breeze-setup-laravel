@@ -14,6 +14,9 @@ use Illuminate\View\View;
 
 class PasswordAllController extends Controller
 {
+    // password broker defined in config.auth
+    protected $broker = 'users';
+
     /**
      * Display the password reset link request view.
      */
@@ -32,11 +35,10 @@ class PasswordAllController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
         ]);
-
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
+        $status = Password::broker($this->broker)->sendResetLink(
             $request->only('email')
         );
 
@@ -70,9 +72,10 @@ class PasswordAllController extends Controller
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
-        $status = Password::reset(
+        $status = Password::broker($this->broker)->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
+
                 $user->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),

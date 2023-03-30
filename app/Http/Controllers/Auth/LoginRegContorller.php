@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class LoginRegContorller extends Controller
 {
+    protected $guard = "web";
     /**
      * Display the registration view.
      */
@@ -59,11 +63,31 @@ class LoginRegContorller extends Controller
     }
 
     /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard($this->guard)->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function login_store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+
+        $request->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $this->authenticate($request);
 
         $request->session()->regenerate();
 
@@ -71,17 +95,55 @@ class LoginRegContorller extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * Attempt to authenticate the request's credentials.
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function destroy(Request $request): RedirectResponse
+
+    public function authenticate($request): void
     {
-        Auth::guard('web')->logout();
+        $this->ensureIsNotRateLimited($request);
 
-        $request->session()->invalidate();
+        if (!Auth::guard($this->guard)->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey($request));
 
-        $request->session()->regenerateToken();
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
 
-        return redirect('/');
+        RateLimiter::clear($this->throttleKey($request));
+    }
+
+    /**
+     * Ensure the login request is not rate limited.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function ensureIsNotRateLimited($request): void
+    {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey($request), 3)) {
+            return;
+        }
+
+        event(new Lockout($request));
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($request));
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
+    }
+
+    /**
+     * Get the rate limiting throttle key for the request.
+     */
+    public function throttleKey($request): string
+    {
+        return Str::transliterate(Str::lower($request->input('email')) . '|' . $request->ip());
     }
 
 }
