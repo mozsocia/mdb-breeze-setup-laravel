@@ -61,7 +61,7 @@ class LoginRegContorller extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function login_store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
@@ -83,4 +83,5 @@ class LoginRegContorller extends Controller
 
         return redirect('/');
     }
+
 }
