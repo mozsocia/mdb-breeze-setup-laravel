@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailVerifyController;
 use App\Http\Controllers\Frontauth\LoginRegContorller;
 use App\Http\Controllers\Frontauth\PasswordAllController;
 use App\Http\Controllers\ProfileController;
@@ -34,14 +32,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
+    Route::get('verify-email', [EmailVerifyController::class, 'notice'])
         ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+    Route::get('verify-email/{id}/{hash}', [EmailVerifyController::class, 'verify'])
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    Route::post('email/verification-notification', [EmailVerifyController::class, 'send'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
