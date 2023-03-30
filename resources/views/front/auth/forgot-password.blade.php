@@ -26,7 +26,7 @@
 
 
                 <!-- Submit button -->
-                <button type="button" class="btn btn-primary btn-block mb-4">Email Password Reset Link'</button>
+                <button type="submit" class="btn btn-primary btn-block mb-4">Email Password Reset Link'</button>
 
 
               </form>

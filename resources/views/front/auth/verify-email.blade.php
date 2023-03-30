@@ -22,24 +22,31 @@
                 you? If you didn\'t receive the email, we will gladly send you another.
               </p>
 
-
-              <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
-
-
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Resend Verification Email</button>
+              <div class="row">
+                <div class="col-md-8">
+                  <form method="POST" action="{{ route('verification.send') }}">
+                    @csrf
 
 
-              </form>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Resend Verification Email</button>
 
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
 
-                <button type="submit" class="btn btn-primary btn mb-4">
-                  {{ __('Log Out') }}
-                </button>
-              </form>
+                  </form>
+                </div>
+                <div class="col">
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <button type="submit" class="btn btn-primary btn mb-4">
+                      {{ __('Log Out') }}
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+
+
 
 
               <!-- END main content   -->

@@ -34,18 +34,8 @@
     }
   }
 
-  /* .alert-message {
-    margin-top: 10px;
-    width: 40%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    margin: 0 auto;
-    opacity: .8;
-  } */
-  .alert-floating {
+  .session-alert {
+    display: none;
     position: fixed;
     top: 10px;
     right: 20px;
@@ -108,50 +98,38 @@
     // }, 5000);
 
 
-    // document.addEventListener("DOMContentLoaded", function(event) {
-    //   var alertMessages = document.getElementsByClassName("alert-message");
+    // Get all elements with the session-alert class
+    const sessionAlerts = document.querySelectorAll('.session-alert');
 
-    //   setTimeout(function() {
-    //     for (var i = 0; i < alertMessages.length; i++) {
-    //       var alertMessage = alertMessages[i];
-    //       alertMessage.style.transition = "opacity 1s";
-    //       alertMessage.style.opacity = 0;
-    //       setTimeout(function() {
-    //         alertMessage.style.display = "none";
-    //       }, 2000);
-    //     }
-    //   }, 5000);
-    // });
+    // Loop through all session alert elements
+    sessionAlerts.forEach(sessionAlert => {
 
-    // Get the session alert element
-    const sessionAlert = document.querySelector(".session-alert");
+      sessionAlert.style.display = 'inline';
 
-    // Add the alert-floating class to make it float
-    sessionAlert.classList.add('alert-floating');
+      // Add a transition effect to the alert
+      sessionAlert.style.transition = 'transform 0.7s ease';
 
-    // Add a transition effect to the alert
-    sessionAlert.style.transition = 'transform 0.8s ease';
+      // Slide the alert in from the right
+      sessionAlert.style.transform = 'translateX(170%)';
 
-    // Slide the alert in from the right
-    sessionAlert.style.transform = 'translateX(100%)';
-
-    // Wait for 100ms to allow the slide-in effect to take place
-    setTimeout(() => {
-      // Slide the alert back to its original position
-      sessionAlert.style.transform = 'translateX(0)';
-    }, 100);
-
-    // Wait for 5 seconds before sliding the alert out
-    setTimeout(() => {
-      // Slide the alert out to the right
-      sessionAlert.style.transform = 'translateX(100%)';
-
-      // Wait for 500ms to allow the slide-out effect to take place
+      // Wait for 100ms to allow the slide-in effect to take place
       setTimeout(() => {
-        // Remove the alert from the DOM
-        sessionAlert.remove();
-      }, 500);
-    }, 7000);
+        // Slide the alert back to its original position
+        sessionAlert.style.transform = 'translateX(0)';
+      }, 100);
+
+      // Wait for 5 seconds before sliding the alert out
+      setTimeout(() => {
+        // Slide the alert out to the right
+        sessionAlert.style.transform = 'translateX(170%)';
+
+        // Wait for 500ms to allow the slide-out effect to take place
+        setTimeout(() => {
+          // Remove the alert from the DOM
+          sessionAlert.remove();
+        }, 500);
+      }, 5000);
+    });
   </script>
 </body>
 
