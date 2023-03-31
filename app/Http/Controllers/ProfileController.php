@@ -15,12 +15,18 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     use AuthBaseController;
+
+    public function dashboard()
+    {
+        return view($this->view . 'dashboard');
+    }
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view($this->view. '.' .'profile.edit', [
+        return view($this->view . 'profile.edit', [
             'user' => $request->user(),
         ]);
     }

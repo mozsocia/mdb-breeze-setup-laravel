@@ -24,7 +24,7 @@ class LoginRegContorller extends Controller
      */
     public function reg_create(): View
     {
-        return view($this->view. '.' .'auth.register');
+        return view($this->view . 'auth.register');
     }
 
     /**
@@ -58,7 +58,7 @@ class LoginRegContorller extends Controller
      */
     public function login_create(): View
     {
-        return view($this->view. '.' .'auth.login');
+        return view($this->view . 'auth.login');
     }
 
     /**

@@ -11,7 +11,7 @@ trait AuthBaseController
     public $guard = "web";
 
     // blade template folder in view folder
-    public $view = "front";
+    public $view = "frontend.";
 
     // model
     public $model = User::class;
