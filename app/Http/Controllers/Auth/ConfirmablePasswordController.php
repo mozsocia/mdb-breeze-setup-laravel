@@ -12,12 +12,13 @@ use Illuminate\View\View;
 
 class ConfirmablePasswordController extends Controller
 {
+    use AuthBaseController;
     /**
      * Show the confirm password view.
      */
     public function show(): View
     {
-        return view('front.auth.confirm-password');
+        return view($this->view. '.' .'auth.confirm-password');
     }
 
     /**
@@ -25,7 +26,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if (!Auth::guard('web')->validate([
+        if (!Auth::guard($this->guard)->validate([
             'email' => $request->user()->email,
             'password' => $request->password,
         ])) {
@@ -36,6 +37,6 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended($this->home);
     }
 }

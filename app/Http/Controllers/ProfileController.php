@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\AuthBaseController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,13 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-
+    use AuthBaseController;
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view('front.profile.edit', [
+        return view($this->view. '.' .'profile.edit', [
             'user' => $request->user(),
         ]);
     }

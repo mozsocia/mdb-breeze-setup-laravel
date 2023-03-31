@@ -14,15 +14,14 @@ use Illuminate\View\View;
 
 class PasswordAllController extends Controller
 {
-    // password broker defined in config.auth
-    protected $broker = 'users';
+    use AuthBaseController;
 
     /**
      * Display the password reset link request view.
      */
     public function forgot_create(): View
     {
-        return view('front.auth.forgot-password');
+        return view($this->view. '.' .'auth.forgot-password');
     }
 
     /**
@@ -53,7 +52,7 @@ class PasswordAllController extends Controller
      */
     public function reset_create(Request $request): View
     {
-        return view('front.auth.reset-password', ['request' => $request]);
+        return view($this->view. '.' .'auth.reset-password', ['request' => $request]);
     }
 
     /**

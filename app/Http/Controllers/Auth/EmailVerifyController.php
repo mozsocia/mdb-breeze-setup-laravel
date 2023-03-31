@@ -12,14 +12,15 @@ use Illuminate\View\View;
 
 class EmailVerifyController extends Controller
 {
+    use AuthBaseController;
     /**
      * Display the email verification prompt.
      */
     public function notice(Request $request): RedirectResponse | View
     {
         return $request->user()->hasVerifiedEmail()
-        ? redirect()->intended(RouteServiceProvider::HOME)
-        : view('front.auth.verify-email');
+        ? redirect()->intended($this->home)
+        : view($this->view. '.' .'auth.verify-email');
     }
 
     /**
@@ -28,14 +29,14 @@ class EmailVerifyController extends Controller
     public function verify(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+            return redirect()->intended($this->home . '?verified=1');
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+        return redirect()->intended($this->home . '?verified=1');
     }
 
     /**
@@ -44,7 +45,7 @@ class EmailVerifyController extends Controller
     public function send(Request $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended($this->home);
         }
 
         $request->user()->sendEmailVerificationNotification();

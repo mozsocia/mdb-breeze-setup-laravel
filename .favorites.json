@@ -25,5 +25,32 @@
         "workspaceRoot": null,
         "workspacePath": null,
         "id": "cTisQC0gSdvrl8zj"
+    },
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\app",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\app",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "phldwrWaUJ1R3B5Q"
+    },
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\resources",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\resources",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "SDXQUhmJ0BvHCkiA"
+    },
+    {
+        "type": "Directory",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\routes",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\routes",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "uGj3LJFhDf79nVEb"
     }
 ]

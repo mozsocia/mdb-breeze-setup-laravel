@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,13 +17,14 @@ use Illuminate\View\View;
 
 class LoginRegContorller extends Controller
 {
-    protected $guard = "web";
+
+    use AuthBaseController;
     /**
      * Display the registration view.
      */
     public function reg_create(): View
     {
-        return view('front.auth.register');
+        return view($this->view. '.' .'auth.register');
     }
 
     /**
@@ -37,11 +36,11 @@ class LoginRegContorller extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . $this->model],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $user = User::create([
+        $user = $this->model::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -51,7 +50,7 @@ class LoginRegContorller extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect($this->home);
     }
 
     /**
@@ -59,7 +58,7 @@ class LoginRegContorller extends Controller
      */
     public function login_create(): View
     {
-        return view('front.auth.login');
+        return view($this->view. '.' .'auth.login');
     }
 
     /**
@@ -91,7 +90,7 @@ class LoginRegContorller extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended($this->home);
     }
 
     /**
