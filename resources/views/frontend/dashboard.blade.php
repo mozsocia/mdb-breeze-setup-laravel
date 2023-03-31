@@ -1,3 +1,9 @@
+@php
+  $prefix = Request::route()->getPrefix();
+  $route = Route::current()->getName();
+  
+@endphp
+
 @extends('front.layouts.app')
 
 @section('content')
@@ -7,6 +13,9 @@
 
 
     <h2>Hello {{ Auth::user()->name }}</h2>
+
+    {{ $prefix }}
+    {{ $route }}
 
   </div>
 @endsection
