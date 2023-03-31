@@ -48,7 +48,7 @@ class LoginRegContorller extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::guard($this->guard)->login($user);
 
         return redirect($this->home);
     }
