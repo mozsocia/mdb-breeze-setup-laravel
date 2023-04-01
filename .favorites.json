@@ -1,29 +1,29 @@
 [
     {
         "type": "Directory",
-        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\app",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\app",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\app",
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\app",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "A8au0YXxv5qzISkt"
+        "id": "7kaXPO6Sby2xcqhD"
     },
     {
         "type": "Directory",
-        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\routes",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\resources",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\routes",
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\resources",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "5A0rIypaKFeEwkt8"
+        "id": "D3wBElsh6ZdqN5kQ"
     },
     {
         "type": "Directory",
-        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\resources",
+        "name": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\routes",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mmmm\\resources",
+        "fsPath": "c:\\Users\\Mozdalif\\Desktop\\laravel_prac\\mdb-breeze-setup-laravel\\routes",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "dLYwbxKkR0Jvs6eV"
+        "id": "wu8MLz7C4qBAyPFp"
     }
 ]
