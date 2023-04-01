@@ -55,7 +55,7 @@ class EmailVerifyController extends Controller
         }
 
         $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
+            $this->name_prefix . 'verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
                 'id' => $user->getKey(),

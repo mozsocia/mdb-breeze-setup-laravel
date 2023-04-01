@@ -58,7 +58,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware([
     'auth',
-    // 'verified.custom',   // comment out this line to must verify email
+     // comment out below this line to must verify email , for admin prefix route use "verified.custom:admin"
+    // "verified.custom",
 ])->group(function () {
 
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
