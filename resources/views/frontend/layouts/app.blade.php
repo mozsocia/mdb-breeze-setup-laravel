@@ -40,7 +40,7 @@
     top: 10px;
     right: 20px;
     z-index: 9999;
-    opacity: .9;
+    opacity: .95;
   }
 </style>
 

@@ -7,7 +7,7 @@ use App\Http\Controllers\Auth\PasswordAllController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest.custom')->group(function () {
     Route::get('register', [LoginRegContorller::class, 'reg_create'])
         ->name('register');
 
@@ -31,7 +31,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth.custom')->group(function () {
     Route::get('verify-email', [EmailVerifyController::class, 'notice'])
         ->name('verification.notice');
 
@@ -56,8 +56,14 @@ Route::middleware('auth')->group(function () {
 //     return view('frontend.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware([
+    'auth.custom',
+     // comment out below this line to must verify email , for admin prefix route use "verified.custom:admin"
+    // "verified.custom",
+])->group(function () {
+
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
