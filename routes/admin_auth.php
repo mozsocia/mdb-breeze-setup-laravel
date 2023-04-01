@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware([
         'auth.admin:admin',
+        'disableBackButtonCache',
         // comment out below this line to must verify email , for admin prefix route use "verified.custom:admin"
         "verified.custom:admin",
     ])->group(function () {

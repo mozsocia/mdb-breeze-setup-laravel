@@ -41,7 +41,6 @@ class ProfileController extends Controller
             'name' => ['string', 'max:255'],
             'email' => ['email', 'max:255', Rule::unique('users')->ignore($request->user()->id)],
         ]);
-        
         $user = $request->user();
         $user->fill($request->only('name', 'email'));
 
@@ -59,7 +58,7 @@ class ProfileController extends Controller
 
         // $request->user()->save();
 
-        return Redirect::route($this->prefix .'profile.edit')->with('status', 'Profile Updated Successfully');
+        return Redirect::route($this->prefix . 'profile.edit')->with('status', 'Profile Updated Successfully');
     }
 
     /**

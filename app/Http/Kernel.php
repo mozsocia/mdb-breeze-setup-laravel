@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'auth.admin' => \App\Http\Middleware\AuthenticateAdmin::class,
         'verified.custom' => \App\Http\Middleware\EnsureEmailIsVerifiedCustom::class,
         'guest.custom' => \App\Http\Middleware\RedirectIfAuthenticatedCustom::class,
+        'disableBackButtonCache' => \App\Http\Middleware\DisableBackButtonCache::class,
     ];
 }
