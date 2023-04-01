@@ -39,5 +39,3 @@
 </body>
 
 </html>
-In this example, the name and resetLink variables are used to personalize the email message and to generate the password
-reset link. You can customize this file to suit your application's branding and design.
