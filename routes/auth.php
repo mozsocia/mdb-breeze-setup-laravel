@@ -31,7 +31,7 @@ Route::middleware('guest.custom')->group(function () {
         ->name('password.store');
 });
 
-Route::middleware('auth.custom')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('verify-email', [EmailVerifyController::class, 'notice'])
         ->name('verification.notice');
 
@@ -57,7 +57,7 @@ Route::middleware('auth.custom')->group(function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware([
-    'auth.custom',
+    'auth',
      // comment out below this line to must verify email , for admin prefix route use "verified.custom:admin"
     // "verified.custom",
 ])->group(function () {
