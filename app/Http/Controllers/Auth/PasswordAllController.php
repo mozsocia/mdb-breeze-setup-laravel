@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\View\View;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 
 class PasswordAllController extends Controller
 {
@@ -37,8 +38,19 @@ class PasswordAllController extends Controller
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::broker($this->broker)->sendResetLink(
-            $request->only('email')
+        
+        $status = Password::sendResetLink(
+            $request->only('email'),
+            function ($user, string $token) {
+
+                ResetPasswordNotification::createUrlUsing( function() use ($token,$user ){
+                    return url(route( $this->name_prefix .'password.reset', [
+                        'token' => $token,
+                        'email' => $user->email,
+                    ], false));
+                });
+                $user->notify(new ResetPasswordNotification($token));
+            }
         );
 
         return $status == Password::RESET_LINK_SENT

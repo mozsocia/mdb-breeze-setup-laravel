@@ -10,6 +10,8 @@ trait AuthBaseController
     // auth guard defined in config auth
     public $guard = "web";
 
+    public $name_prefix  = ""; // use route name group prefix here
+
     // blade template folder in view folder
     public $view = "frontend.";
 
