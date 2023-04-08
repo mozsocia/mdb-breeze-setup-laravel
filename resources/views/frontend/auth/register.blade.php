@@ -1,5 +1,4 @@
-@extends('frontend.layouts.app')
-
+@extends('frontend.auth.layout')
 
 @section('content')
   <section class="">

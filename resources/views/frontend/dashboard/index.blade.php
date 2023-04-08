@@ -4,10 +4,11 @@
   
 @endphp
 
-@extends('frontend.layouts.app')
+@extends('frontend.dashboard.layout')
+
 
 @section('content')
-  @include('frontend.partials.navbar')
+  @include('frontend.dashboard.partials.navbar')
 
   <div class="container">
 

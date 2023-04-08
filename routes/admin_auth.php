@@ -62,7 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'auth.admin:admin',
         'disableBackButtonCache',
         // comment out below this line to must verify email , for admin prefix route use "verified.custom:admin"
-        "verified.custom:admin",
+        // "verified.custom:admin",
     ])->group(function () {
 
         Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');

@@ -19,7 +19,8 @@ class ProfileController extends Controller
 
     public function dashboard()
     {
-        return view($this->view . 'dashboard');
+        // return ['msg' => "hello"];
+        return view($this->view . 'dashboard.index');
     }
 
     /**
@@ -27,7 +28,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view($this->view . 'profile.edit', [
+        return view($this->view . 'dashboard.profile.edit', [
             'user' => $request->user(),
         ]);
     }

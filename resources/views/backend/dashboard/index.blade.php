@@ -1,9 +1,7 @@
-
-
-@extends('backend.layouts.app')
+@extends('backend.dashboard.layout')
 
 @section('content')
-  @include('backend.partials.navbar')
+  @include('backend.dashboard.partials.navbar')
 
   <div class="container">
 

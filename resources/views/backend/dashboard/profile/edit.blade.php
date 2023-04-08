@@ -1,12 +1,15 @@
-@extends('frontend.layouts.app')
+@extends('backend.dashboard.layout')
 
+@php
+  $user = Auth::guard('admin')->user();
+@endphp
 @section('content')
-  @include('frontend.partials.navbar')
+  @include('backend.dashboard.partials.navbar')
 
   <div class="container">
 
 
-    <h2>Hello {{ Auth::user()->name }}</h2>
+    <h2>Hello {{ $user->name }}</h2>
 
 
     <!-- Profile Information   -->
@@ -22,7 +25,7 @@
 
         <div class="my-4">
           @if (!$user->hasVerifiedEmail())
-            <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+            <form id="send-verification" method="post" action="{{ route('admin.verification.send') }}">
               @csrf
 
 
@@ -48,7 +51,7 @@
 
         </div>
 
-        <form method="POST" action="{{ route('profile.update') }}">
+        <form method="POST" action="{{ route('admin.profile.update') }}">
           @csrf
           @method('patch')
           <!-- Name input -->
@@ -91,7 +94,7 @@
 
         <!-- START main content   -->
 
-        <form method="POST" action="{{ route('password.update') }}">
+        <form method="POST" action="{{ route('admin.password.update') }}">
           @csrf
           @method('PUT')
           <!-- Current Password Input -->

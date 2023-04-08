@@ -1,15 +1,35 @@
-@extends('backend.layouts.app')
+@extends('frontend.dashboard.layout')
 
-@php
-    $user = Auth::guard('admin')->user();
-@endphp
 @section('content')
-  @include('backend.partials.navbar')
+  @include('frontend.dashboard.partials.navbar')
 
   <div class="container">
 
 
-    <h2>Hello {{ $user->name }}</h2>
+    <h2>Hello {{ Auth::user()->name }}</h2>
+
+
+    <!-- Button trigger modal -->
+    <a type="button" class="" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+      Launch demo modal
+    </a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <!-- Profile Information   -->
@@ -25,7 +45,7 @@
 
         <div class="my-4">
           @if (!$user->hasVerifiedEmail())
-            <form id="send-verification" method="post" action="{{ route('admin.verification.send') }}">
+            <form id="send-verification" method="post" action="{{ route('verification.send') }}">
               @csrf
 
 
@@ -51,7 +71,7 @@
 
         </div>
 
-        <form method="POST" action="{{ route('admin.profile.update') }}">
+        <form method="POST" action="{{ route('profile.update') }}">
           @csrf
           @method('patch')
           <!-- Name input -->
@@ -94,7 +114,7 @@
 
         <!-- START main content   -->
 
-        <form method="POST" action="{{ route('admin.password.update') }}">
+        <form method="POST" action="{{ route('password.update') }}">
           @csrf
           @method('PUT')
           <!-- Current Password Input -->
