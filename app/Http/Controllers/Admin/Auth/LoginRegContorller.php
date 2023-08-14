@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,13 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class LoginRegContorller extends Controller
 {
@@ -46,11 +54,32 @@ class LoginRegContorller extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
+
+        if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+            $this->sendEmailVerification($user);
+        }
+
 
         Auth::guard($this->guard)->login($user);
 
         return redirect($this->home);
+    }
+
+    public function sendEmailVerification($user) {
+        $verificationUrl = URL::temporarySignedRoute(
+            $this->name_prefix . 'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $user->getKey(),
+                'hash' => sha1($user->getEmailForVerification()),
+            ]
+        );
+
+        Mail::send('emails.verify-email', ['verificationUrl' => $verificationUrl], 
+        function ($message) use ($user) {
+            $message->to($user->email)->subject('Verify Your Email Address');
+        });
     }
 
     /**

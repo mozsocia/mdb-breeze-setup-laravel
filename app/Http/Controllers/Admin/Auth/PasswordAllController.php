@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\View\View;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class PasswordAllController extends Controller
 {
@@ -35,28 +38,41 @@ class PasswordAllController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
         ]);
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        
-        $status = Password::sendResetLink(
-            $request->only('email'),
-            function ($user, string $token) {
+        $user = $this->model::where('email', $request->email)->first();
 
-                ResetPasswordNotification::createUrlUsing( function() use ($token,$user ){
-                    return url(route( $this->name_prefix .'password.reset', [
-                        'token' => $token,
-                        'email' => $user->email,
-                    ], false));
-                });
-                $user->notify(new ResetPasswordNotification($token));
-            }
-        );
+        if (!$user) {
+            return back()->withErrors(['email' => 'We could not find a user with that email address.']);
+        }
 
-        return $status == Password::RESET_LINK_SENT
-        ? back()->with('status', __($status))
-        : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+        // Check if there is already a password reset token for the given email
+        $existingToken = DB::table('password_resets')->where('email', $request->email)->first();
+
+        if ($existingToken) {
+            // Use the existing password reset token
+            $token = $existingToken->token;
+        } else {
+            // Generate a new password reset token
+            $token = Str::random(64);
+            DB::table('password_resets')->insert([
+                'email' => $user->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]);
+        }
+
+        // Send reset password email
+
+        $resetLink = url(route($this->name_prefix . 'password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ], false));
+
+        Mail::send('emails.password-reset', ['resetLink' => $resetLink], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Reset Your Password');
+        });
+
+        return back()->with('status', 'We have emailed your password reset link!');
     }
 
     /**
@@ -79,29 +95,24 @@ class PasswordAllController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', RulesPassword::defaults()],
         ]);
+        $reset = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::broker($this->broker)->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
+        if (!$reset) {
+            return back()->withErrors(['email' => 'Invalid reset token.']);
+        }
 
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        $user = $this->model::where('email', $reset->email)->first();
+        $user->password = bcrypt($request->password);
+        $user->save();
 
-                event(new PasswordReset($user));
-            }
-        );
+        // Delete the password reset token from the database
+        DB::table('password_resets')->where('email', $reset->email)->delete();
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-        ? redirect()->route($this->name_prefix .'login')->with('status', __($status))
-        : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+        return redirect()->route($this->name_prefix . 'login')->with('status', 'Your password has been reset!');
+
+        return back()->withInput($request->only('email'));
     }
 }
