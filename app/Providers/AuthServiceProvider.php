@@ -30,18 +30,13 @@ class AuthServiceProvider extends ServiceProvider
 
         //
 
-        // VerifyEmail::toMailUsing(function ($notifiable, $url) {
-        //     return (new MailMessage)
-        //         ->subject('Verify Email Address moz')
-        //         ->line('Click the button below to verify your email address.')
-        //         ->action('Verify Email Address', $url);
-        // });
-
-        // VerifyEmail::toMailUsing(function ($notifiable, $url) {
-        //     return new CustomVerifyEmailMail($url); // Use your custom mail class
-        // });
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            return new CustomVerifyEmailMail($url, $notifiable->getEmailForVerification()); // Pass recipient's email address
+            return (new MailMessage)
+                ->subject('Verify Email Address moz')
+                ->line('Click the button below to verify your email address.')
+                ->action('Verify Email Address', $url);
         });
+
+
     }
 }
