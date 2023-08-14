@@ -31,11 +31,9 @@ Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
         ->name('password.store');
 });
 
-
-
 Route::get('verify-email/{id}/{hash}', [EmailVerifyController::class, 'verify'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('verify-email', [EmailVerifyController::class, 'notice'])
@@ -62,7 +60,11 @@ Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function
 //     return view('frontend.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['admin.auth', 'verified:admin.verification.notice'])->group(function () {
+Route::middleware([
+    'admin.auth',
+    'verified:admin.verification.notice', 
+    'disableBackButtonCache',
+])->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
