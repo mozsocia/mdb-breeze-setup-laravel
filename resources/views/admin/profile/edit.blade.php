@@ -1,7 +1,7 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 @section('content')
-  @include('frontend.partials.navbar')
+  @include($admin_auth_view.'partials.navbar')
 
   <div class="container">
 

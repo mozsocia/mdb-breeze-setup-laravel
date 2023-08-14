@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 
 @section('content')
@@ -13,7 +13,7 @@
             <!-- START main content -->
             <h2 class="text-center mb-4">Sign In</h2>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route($admin_auth_view.'login') }}">
               @csrf
               <!-- Email input -->
               <div class="mb-4">
@@ -39,9 +39,9 @@
                 </div>
 
                 <div class="col">
-                  @if (Route::has('password.request'))
+                  @if (Route::has($admin_auth_view.'password.request'))
                     <!-- Simple link -->
-                    <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot password?</a>
+                    <a href="{{ route($admin_auth_view.'password.request') }}" class="text-decoration-none">Forgot password?</a>
                   @endif
 
                 </div>
@@ -52,7 +52,7 @@
 
               <!-- Register buttons -->
               <div class="text-center">
-                <p>Not a member? <a href="{{ route('register') }}" class="text-decoration-none">Register</a></p>
+                <p>Not a member? <a href="{{ route($admin_auth_view.'register') }}" class="text-decoration-none">Register</a></p>
                 <p>or sign up with:</p>
                 <button type="button" class="btn btn-link btn-floating mx-1">
                   <i class="fab fa-facebook-f"></i>

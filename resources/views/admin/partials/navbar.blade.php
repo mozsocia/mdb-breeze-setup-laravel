@@ -49,9 +49,9 @@
             <hr class="dropdown-divider" />
           </li>
           <li>
-            <form method="POST" action="{{ route('logout') }}">
+            <form method="POST" action="{{ route($admin_auth_view.'logout') }}">
               @csrf
-              <a class="dropdown-item" href="{{ route('logout') }}"
+              <a class="dropdown-item" href="{{ route($admin_auth_view.'logout') }}"
                 onclick="event.preventDefault(); this.closest('form').submit();">
                 Log Out
               </a>

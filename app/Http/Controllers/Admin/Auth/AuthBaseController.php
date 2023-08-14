@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Models\User;
 
@@ -10,10 +10,10 @@ trait AuthBaseController
     // auth guard defined in config auth
     public $guard = "web";
 
-    public $name_prefix  = ""; // use route name group prefix here
+    public $name_prefix  = "admin."; // use route name group prefix here
 
     // blade template folder in view folder
-    public $view = "frontend.";
+    public $view = "admin.";
 
     // model
     public $model = User::class;

@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 
 @section('content')
@@ -13,7 +13,7 @@
             <!-- START main content -->
             <h2 class="text-center mb-4">Reset Password</h2>
 
-            <form method="POST" action="{{ route('password.store') }}">
+            <form method="POST" action="{{ route($admin_auth_view.'password.store') }}">
               @csrf
 
               <!-- Password Reset Token -->

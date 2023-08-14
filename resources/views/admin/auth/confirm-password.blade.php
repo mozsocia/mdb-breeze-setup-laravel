@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 
 @section('content')
@@ -14,7 +14,7 @@
             <h4 class="text-center mb-4">Please confirm password</h4>
             <p>This is a secure area of the application. Please confirm your password before continuing.</p>
 
-            <form method="POST" action="{{ route('password.confirm') }}">
+            <form method="POST" action="{{ route($admin_auth_view.'password.confirm') }}">
               @csrf
               <!-- Password input -->
               <div class="mb-4">

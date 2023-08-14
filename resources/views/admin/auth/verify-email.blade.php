@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 
 @section('content')
@@ -23,7 +23,7 @@
 
             <div class="row">
               <div class="col-md-8">
-                <form method="POST" action="{{ route('verification.send') }}">
+                <form method="POST" action="{{ route($admin_auth_view.'verification.send') }}">
                   @csrf
 
                   <!-- Submit button -->
@@ -31,7 +31,7 @@
                 </form>
               </div>
               <div class="col">
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route($admin_auth_view.'logout') }}">
                   @csrf
 
                   <button type="submit" class="btn btn-primary btn mb-4">

@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\EmailVerifyController;
-use App\Http\Controllers\Auth\LoginRegContorller;
-use App\Http\Controllers\Auth\PasswordAllController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Admin\Auth\EmailVerifyController;
+use App\Http\Controllers\Admin\Auth\LoginRegContorller;
+use App\Http\Controllers\Admin\Auth\PasswordAllController;
+use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
     Route::get('register', [LoginRegContorller::class, 'reg_create'])
         ->name('register');
 
@@ -31,7 +31,13 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+
+
+Route::get('verify-email/{id}/{hash}', [EmailVerifyController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('verify-email', [EmailVerifyController::class, 'notice'])
         ->name('verification.notice');
 
@@ -56,10 +62,10 @@ Route::middleware('auth')->group(function () {
 //     return view('frontend.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['admin.auth', 'verified:admin.verification.notice'])->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::put('password', [ProfileController::class, 'password_update'])->name('password.update');
+    Route::put('/profile/password', [ProfileController::class, 'password_update'])->name('profile.password_update');
 });

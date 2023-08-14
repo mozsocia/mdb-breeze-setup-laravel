@@ -1,5 +1,4 @@
-@extends('frontend.layouts.app')
-
+@extends($admin_auth_view.'layouts.app')
 
 @section('content')
 <section class="vh-100">
@@ -13,7 +12,7 @@
               <!-- START main content -->
               <h2 class="text-center mb-4">Create an account</h2>
 
-              <form method="POST" action="{{ route('register') }}">
+              <form method="POST" action="{{ route($admin_auth_view.'register') }}">
                 @csrf
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                                  

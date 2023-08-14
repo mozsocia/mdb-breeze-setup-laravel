@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends($admin_auth_view.'layouts.app')
 
 
 @section('content')
@@ -15,7 +15,7 @@
             <p> Just let us know your email address and we
               will email you a password reset link that will allow you to choose a new one. </p>
 
-            <form method="POST" action="{{ route('password.email') }}">
+            <form method="POST" action="{{ route($admin_auth_view.'password.email') }}">
               @csrf
               <!-- Email input -->
               <div class="mb-4">
